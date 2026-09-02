@@ -54,6 +54,13 @@ const addUser = (user) => {
   return user;
 };
 
+const addUserID = (user) => {
+  const updated = {id: Math.random().toString(), ...user};
+  users["users_list"].push(updated);
+  return user;
+}
+
+
 app.use(cors());
 app.use(express.json());
 
@@ -102,10 +109,11 @@ app.get("/users/:id", (req, res) => {
   }
 });
 
+
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
-  addUser(userToAdd);
-  res.send();
+  const updated = addUserID(userToAdd);
+  res.status(201).send(updated);
 });
 
 app.delete("/users/:id", (req, res) => {
@@ -116,7 +124,7 @@ app.delete("/users/:id", (req, res) => {
   }
   let index = users.users_list.indexOf(result)
   users.users_list.splice(index, 1);
-  res.send("User deleted");
+  res.status(204).send();
 });
 
 app.listen(port, () => {
