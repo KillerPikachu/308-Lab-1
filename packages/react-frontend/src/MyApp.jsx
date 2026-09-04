@@ -28,11 +28,12 @@ function MyApp() {
     const removeCharacter = (id) => {
         removeOneCharacter(id)
             .then((res) => {
+                if(res.status === 404) {
+                    throw new Error(("Resource not found"));
+                }
+
                 if(res.status !== 204) {
                     throw new Error("Deletion not complete");
-                }
-                if(res.status !== 404) {
-                    throw new Error(("Resource not found"));
                 }
                 setCharacters((characters) =>
                     characters.filter((character) => character.id !== id)

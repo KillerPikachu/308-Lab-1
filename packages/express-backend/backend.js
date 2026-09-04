@@ -57,7 +57,7 @@ const addUser = (user) => {
 const addUserID = (user) => {
   const updated = {id: Math.random().toString(), ...user};
   users["users_list"].push(updated);
-  return user;
+  return updated;
 }
 
 
@@ -122,8 +122,7 @@ app.delete("/users/:id", (req, res) => {
   if (result === undefined) {
     return res.status(404).send("User not found.");
   }
-  let index = users.users_list.indexOf(result)
-  users.users_list.splice(index, 1);
+  users.users_list = users.users_list.filter((character) => character.id !== id)
   res.status(204).send();
 });
 
